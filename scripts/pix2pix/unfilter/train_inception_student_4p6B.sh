@@ -8,9 +8,11 @@ python distill.py --dataroot /content/filtered_notfiltered_match_align \
   --nepochs 500 --nepochs_decay 1000 \
   --teacher_netG inception_9blocks --student_netG inception_9blocks \
   --pretrained_ngf 64 --teacher_ngf 64 --student_ngf 32 \
-  --num_threads 80 \
+  --num_threads 0 \
   --eval_batch_size 2 \
   --batch_size 80 \
+  --load_size 356 \
+  --crop_size 256 \
   --gpu_ids 0 \
   --norm batch \
   --norm_affine \

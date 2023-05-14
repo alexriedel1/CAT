@@ -55,7 +55,14 @@ class AlignedDataset(BaseDataset):
 
         A = A_transform(A)
         B = B_transform(B)
-        return {'A': A, 'B': B, 'A_paths': AB_path, 'B_paths': AB_path}
+
+        #0: unftilered, 1 filtered
+        a_label = torch.tensor[1]
+        if torch.rand(1) > opt.b2b_prob:
+            A = B
+            a_label = torch.tensor[0]
+
+        return {'A': A, 'B': B, 'A_paths': AB_path, 'B_paths': AB_path, "a_label" : a_label}
 
     def __len__(self):
         """Return the total number of images in the dataset."""

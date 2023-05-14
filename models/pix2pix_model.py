@@ -37,7 +37,7 @@ class Pix2PixModel(BaseModel):
                             help='the type of the reconstruction loss')
         parser.add_argument('--lambda_recon',
                             type=float,
-                            default=100,
+                            default=100, 
                             help='weight for reconstruction loss')
         parser.add_argument('--lambda_gan',
                             type=float,
@@ -100,6 +100,7 @@ class Pix2PixModel(BaseModel):
                                       opt=opt)
 
         self.criterionGAN = GANLoss(opt.gan_mode).to(self.device)
+        self.criterionClass =  torch.nn.CrossEntropyLoss()
         if opt.recon_loss_type == 'l1':
             self.criterionRecon = torch.nn.L1Loss()
         elif opt.recon_loss_type == 'l2':
@@ -115,9 +116,13 @@ class Pix2PixModel(BaseModel):
         self.optimizer_D = torch.optim.Adam(self.netD.parameters(),
                                             lr=opt.lr,
                                             betas=(opt.beta1, 0.999))
+        self.optimizer_cls = torch.optim.Adam(self.netG.parameters(),
+                                            lr=opt.lr,
+                                            betas=(opt.beta1, 0.999))
         self.optimizers = []
         self.optimizers.append(self.optimizer_G)
         self.optimizers.append(self.optimizer_D)
+         self.optimizers.append(self.optimizer_cls)
 
         self.eval_dataloader = create_eval_dataloader(self.opt)
 
@@ -125,6 +130,7 @@ class Pix2PixModel(BaseModel):
         self.inception_model = InceptionV3([block_idx])
         self.inception_model.to(self.device)
         self.inception_model.eval()
+        self.cls = None
 
         if 'cityscapes' in opt.dataroot:
             self.drn_model = DRNSeg('drn_d_105', 19, pretrained=False)
@@ -155,10 +161,11 @@ class Pix2PixModel(BaseModel):
         self.real_A = input['A' if AtoB else 'B'].to(self.device)
         self.real_B = input['B' if AtoB else 'A'].to(self.device)
         self.image_paths = input['A_paths' if AtoB else 'B_paths']
+        self.cls_label = input["a_label"]
 
     def forward(self):
         """Run forward pass; called by both functions <optimize_parameters> and <test>."""
-        self.fake_B = self.netG(self.real_A)
+        self.fake_B, self.cls = self.netG(self.real_A)
 
     def backward_D(self):
         """Calculate GAN loss for the discriminator"""
@@ -197,17 +204,28 @@ class Pix2PixModel(BaseModel):
         if getattr(self.opt, 'lambda_comp_cost', 0) > 0:
             self.loss_G += self.loss_G_comp_cost
         self.loss_G.backward()
+    
+    def backward_cls(self):
+        loss = self.criterionClass(self.cls, self.cls_label)
+        loss.backward()
+
 
     def optimize_parameters(self, steps):
         self.forward()
+
         self.set_requires_grad(self.netD, True)
         self.optimizer_D.zero_grad()
         self.backward_D()
         self.optimizer_D.step()
+
         self.set_requires_grad(self.netD, False)
         self.optimizer_G.zero_grad()
         self.backward_G()
         self.optimizer_G.step()
+
+        self.optimizer_cls.zero_grad()
+        self.backward_cls()
+        self.optimizer_cls.step()
 
     def evaluate_model(self, step, save_image=False):
         self.is_best = False

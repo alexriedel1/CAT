@@ -15,8 +15,10 @@ python onnx_export.py --dataroot /content/filtered_notfiltered_match_align \
   --kernel_sizes 1 3 5 \
   --direction AtoB \
   --batch_size 8 \
+  --load_size 356 \
+  --crop_size 256 \
   --eval_batch_size 2 \
   --gpu_ids 0 \
-  --num_threads 8 \
+  --num_threads 0 \
   --prune_cin_lb 16 \
   --target_flops 4.6e9 \

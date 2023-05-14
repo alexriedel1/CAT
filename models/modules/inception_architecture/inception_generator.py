@@ -131,15 +131,18 @@ class InceptionGenerator(BaseNetwork):
         up_sampling += [nn.Conv2d(ngf, output_nc, kernel_size=7, padding=0)]
         up_sampling += [nn.Tanh()]
         self.down_sampling = nn.Sequential(*down_sampling)
+        #TODO Implement simple classifier from features
+        self.classifier = ...
         self.features = nn.Sequential(*features)
         self.up_sampling = nn.Sequential(*up_sampling)
 
     def forward(self, input):
         """Standard forward"""
         res = self.down_sampling(input)
+        cls = self.classifier(res)
         res = self.features(res)
         res = self.up_sampling(res)
-        return res
+        return res, cls
 
     def get_named_block_list(self):
         return _get_named_block_list(self)

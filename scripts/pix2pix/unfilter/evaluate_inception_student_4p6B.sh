@@ -15,6 +15,8 @@ python profile.py --dataroot database/maps \
   --kernel_sizes 1 3 5 \
   --direction AtoB \
   --batch_size 8 \
+  --load_size 356 \
+  --crop_size 256 \
   --eval_batch_size 2 \
   --gpu_ids 0 \
   --num_threads 8 \
