@@ -46,7 +46,8 @@ class Pix2PixModel(BaseModel):
         parser.add_argument(
             '--real_stat_path',
             type=str,
-            required=True,
+            default=None,
+            #required=True,
             help=
             'the path to load the groud-truth images information to compute FID.'
         )
@@ -138,7 +139,9 @@ class Pix2PixModel(BaseModel):
         self.fids, self.mIoUs = [], []
         self.is_best = False
         self.Tacts, self.Sacts = {}, {}
-        self.npz = np.load(opt.real_stat_path)
+        self.real_stat_path = opt.real_stat_path
+        if self.real_stat_path is not None:
+            self.npz = np.load(opt.real_stat_path)
 
     def set_input(self, input):
         """Unpack input data from the dataloader and perform necessary pre-processing steps.
@@ -241,23 +244,26 @@ class Pix2PixModel(BaseModel):
                                     create_dir=True)
                 cnt += 1
 
-        fid = get_fid(fakes,
-                      self.inception_model,
-                      self.npz,
-                      device=self.device,
-                      batch_size=self.opt.eval_batch_size)
-        if fid < self.best_fid:
-            self.is_best = True
-            self.best_fid = fid
-        self.fids.append(fid)
-        if len(self.fids) > 3:
-            self.fids.pop(0)
+        if self.real_stat_path is not None:
+            fid = get_fid(fakes,
+                        self.inception_model,
+                        self.npz,
+                        device=self.device,
+                        batch_size=self.opt.eval_batch_size)
+            if fid < self.best_fid:
+                self.is_best = True
+                self.best_fid = fid
+            self.fids.append(fid)
+            if len(self.fids) > 3:
+                self.fids.pop(0)
 
-        ret = {
-            'metric/fid': fid,
-            'metric/fid-mean': sum(self.fids) / len(self.fids),
-            'metric/fid-best': self.best_fid
-        }
+            ret = {
+                'metric/fid': fid,
+                'metric/fid-mean': sum(self.fids) / len(self.fids),
+                'metric/fid-best': self.best_fid
+            }
+        else:
+            ret = {}
         if 'cityscapes' in self.opt.dataroot:
             mIoU = get_mIoU(fakes,
                             names,
