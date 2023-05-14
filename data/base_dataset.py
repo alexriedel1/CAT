@@ -99,6 +99,7 @@ def get_transform(opt,
             transforms.Lambda(
                 lambda img: __scale_width(img, opt.load_size, method)))
     if 'crop' in opt.preprocess:
+        #TODO implement random resized crop https://pytorch.org/vision/stable/_modules/torchvision/transforms/v2/_geometry.html#RandomResizedCrop
         if params is None:
             transform_list.append(transforms.RandomCrop(opt.crop_size))
         else:
