@@ -19,4 +19,4 @@ python train.py --dataroot /content/filtered_notfiltered_match_align \
   --save_epoch_freq 50 --save_latest_freq 20000 \
   --eval_batch_size 16 \
   --direction AtoB\
-  --b2b_prob 0.2
+  --b2b_prob 0.3

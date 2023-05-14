@@ -131,8 +131,17 @@ class InceptionGenerator(BaseNetwork):
         up_sampling += [nn.Conv2d(ngf, output_nc, kernel_size=7, padding=0)]
         up_sampling += [nn.Tanh()]
         self.down_sampling = nn.Sequential(*down_sampling)
+       
         #TODO Implement simple classifier from features
-        self.classifier = ...
+        self.classifier =  nn.Sequential(
+            nn.ReLU(),
+            nn.AdaptiveAvgPool2d((1, 1)),
+            nn.Flatten(),
+            nn.Linear(ngf * (2**(n_downsampling-1)) * 2,  1),
+            nn.ReLU(),
+            nn.Sigmoid()
+            )
+
         self.features = nn.Sequential(*features)
         self.up_sampling = nn.Sequential(*up_sampling)
 

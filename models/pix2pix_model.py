@@ -74,7 +74,7 @@ class Pix2PixModel(BaseModel):
         assert opt.isTrain
         BaseModel.__init__(self, opt)
         self.loss_names = [
-            'G_gan', 'G_recon', 'D_real', 'D_fake', 'G_comp_cost'
+            'G_gan', 'G_recon', 'D_real', 'D_fake', 'G_comp_cost', 'cls'
         ]
         self.visual_names = ['real_A', 'fake_B', 'real_B']
         self.model_names = ['G', 'D']
@@ -100,7 +100,7 @@ class Pix2PixModel(BaseModel):
                                       opt=opt)
 
         self.criterionGAN = GANLoss(opt.gan_mode).to(self.device)
-        self.criterionClass =  torch.nn.CrossEntropyLoss()
+        self.criterionClass =  torch.nn.BCELoss()
         if opt.recon_loss_type == 'l1':
             self.criterionRecon = torch.nn.L1Loss()
         elif opt.recon_loss_type == 'l2':
@@ -206,9 +206,8 @@ class Pix2PixModel(BaseModel):
         self.loss_G.backward()
     
     def backward_cls(self):
-        loss = self.criterionClass(self.cls, self.cls_label)
-        loss.backward()
-
+        self.loss_cls = self.criterionClass(self.cls, self.cls_label)
+        self.loss_cls.backward()
 
     def optimize_parameters(self, steps):
         self.forward()
