@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 python train.py --dataroot /content/filtered_notfiltered_match_align \
   --model pix2pix \
-  --log_dir /content/drive/MyDrive/AI Jobs/fiverr/engio1/pix2pix_CAT/logs \
+  --log_dir "/content/drive/MyDrive/AI Jobs/fiverr/engio1/pix2pix_CAT/logs" \
   --netG inception_9blocks \
   --batch_size 16 \
   --load_size 412 \
