@@ -122,7 +122,7 @@ class Pix2PixModel(BaseModel):
         self.optimizers = []
         self.optimizers.append(self.optimizer_G)
         self.optimizers.append(self.optimizer_D)
-         self.optimizers.append(self.optimizer_cls)
+        self.optimizers.append(self.optimizer_cls)
 
         self.eval_dataloader = create_eval_dataloader(self.opt)
 
