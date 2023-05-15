@@ -30,7 +30,6 @@ class AlignedDataset(BaseDataset):
         self.input_nc = self.opt.output_nc if self.opt.direction == 'BtoA' else self.opt.input_nc
         self.output_nc = self.opt.input_nc if self.opt.direction == 'BtoA' else self.opt.output_nc
         self.cache = {}
-        self.random_resize_crop = transforms.RandomResizedCrop(self.opt.crop_size)
 
     def __getitem__(self, index):
         AB_path = self.AB_paths[index]
@@ -49,7 +48,9 @@ class AlignedDataset(BaseDataset):
 
         # apply the same transform to both A and B
         transform_params = get_params(self.opt, A.size)
-        random_resize_crop_params = self.random_resize_crop.get_params(A, self.random_resize_crop.scale, self.random_resize_crop.ratio)
+        random_resize_crop = transforms.RandomResizedCrop(self.opt.crop_size)
+        random_resize_crop_params = random_resize_crop.get_params(A, random_resize_crop.scale, random_resize_crop.ratio)
+        random_resize_crop_params += (random_resize_crop.size, )
         A_transform = get_transform(self.opt,
                                     transform_params, random_resize_crop_params=random_resize_crop_params,
                                     grayscale=(self.input_nc == 1))
@@ -61,10 +62,10 @@ class AlignedDataset(BaseDataset):
         B = B_transform(B)
 
         #0: unftilered, 1 filtered
-        a_label = torch.tensor([1])
+        a_label = torch.tensor([1.0])
         if self.opt.b2b_prob > torch.rand(1):
             A = B
-            a_label = torch.tensor([0])
+            a_label = torch.tensor([0.0])
 
         return {'A': A, 'B': B, 'A_paths': AB_path, 'B_paths': AB_path, "a_label" : a_label}
 
