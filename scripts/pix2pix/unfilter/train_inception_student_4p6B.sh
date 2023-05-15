@@ -21,7 +21,8 @@ python distill.py --dataroot /content/filtered_notfiltered_match_align \
   --channels_reduction_factor 6 \
   --kernel_sizes 1 3 5 \
   --direction AtoB \
-  --b2b_prob 0.3
+  --b2b_prob 0.3 \
+  --preprocess random_rsz \
   --lambda_distill 1.3 \
   --prune_cin_lb 16 \
   --target_flops 4.6e9 \

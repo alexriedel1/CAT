@@ -9,6 +9,7 @@ import numpy as np
 import torch.utils.data as data
 import torchvision.transforms as transforms
 from PIL import Image
+import torchvision.transforms.functional as TF
 
 
 class BaseDataset(data.Dataset, ABC):
@@ -84,6 +85,7 @@ def get_params(opt, size):
 
 def get_transform(opt,
                   params=None,
+                  random_resize_crop_params=None,
                   grayscale=False,
                   method=Image.BICUBIC,
                   toTensor=True,
@@ -99,13 +101,19 @@ def get_transform(opt,
             transforms.Lambda(
                 lambda img: __scale_width(img, opt.load_size, method)))
     if 'crop' in opt.preprocess:
-        #TODO implement random resized crop https://pytorch.org/vision/stable/_modules/torchvision/transforms/v2/_geometry.html#RandomResizedCrop
         if params is None:
             transform_list.append(transforms.RandomCrop(opt.crop_size))
         else:
             transform_list.append(
                 transforms.Lambda(lambda img: __crop(img, params['crop_pos'],
                                                      params['crop_size'])))
+    if 'random_rsz' in opt.preprocess:
+        if random_resize_crop_params is None:
+            transform_list.append(transforms.RandomResizedCrop(opt.crop_size))
+        else:
+            transform_list.append(
+                transforms.Lambda(lambda img: TF.resized_crop(img, *random_resize_crop_params, opt.crop_size)))
+
     if opt.preprocess == 'none':
         transform_list.append(
             transforms.Lambda(

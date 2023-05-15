@@ -4,6 +4,7 @@ from PIL import Image
 
 from data.base_dataset import BaseDataset, get_params, get_transform
 from data.image_folder import make_dataset
+import torchvision.transforms as transforms
 
 
 class AlignedDataset(BaseDataset):
@@ -28,6 +29,7 @@ class AlignedDataset(BaseDataset):
         self.input_nc = self.opt.output_nc if self.opt.direction == 'BtoA' else self.opt.input_nc
         self.output_nc = self.opt.input_nc if self.opt.direction == 'BtoA' else self.opt.output_nc
         self.cache = {}
+        self.random_resize_crop = transforms.RandomResizedCrop(self.opt.crop_size)
 
     def __getitem__(self, index):
         AB_path = self.AB_paths[index]
@@ -46,11 +48,12 @@ class AlignedDataset(BaseDataset):
 
         # apply the same transform to both A and B
         transform_params = get_params(self.opt, A.size)
+        random_resize_crop_params = self.random_resize_crop.get_params(A, self.random_resize_crop.scale, self.random_resize_crop.ratio)
         A_transform = get_transform(self.opt,
-                                    transform_params,
+                                    transform_params, random_resize_crop_params=random_resize_crop_params,
                                     grayscale=(self.input_nc == 1))
         B_transform = get_transform(self.opt,
-                                    transform_params,
+                                    transform_params, random_resize_crop_params=random_resize_crop_params,
                                     grayscale=(self.output_nc == 1))
 
         A = A_transform(A)
