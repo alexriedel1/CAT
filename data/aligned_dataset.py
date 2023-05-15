@@ -61,7 +61,7 @@ class AlignedDataset(BaseDataset):
         B = B_transform(B)
 
         #0: unftilered, 1 filtered
-        a_label = torch.tensor[1]
+        a_label = torch.tensor([1])
         if opt.b2b_prob > torch.rand(1):
             A = B
             a_label = torch.tensor[0]
