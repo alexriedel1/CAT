@@ -62,9 +62,9 @@ class AlignedDataset(BaseDataset):
 
         #0: unftilered, 1 filtered
         a_label = torch.tensor([1])
-        if opt.b2b_prob > torch.rand(1):
+        if self.opt.b2b_prob > torch.rand(1):
             A = B
-            a_label = torch.tensor[0]
+            a_label = torch.tensor([0])
 
         return {'A': A, 'B': B, 'A_paths': AB_path, 'B_paths': AB_path, "a_label" : a_label}
 
