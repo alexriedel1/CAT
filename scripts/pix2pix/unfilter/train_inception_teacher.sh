@@ -7,7 +7,7 @@ python train.py --dataroot /content/filtered_notfiltered_match_align \
   --load_size 412 \
   --crop_size 384 \
   --lambda_recon 10 \
-  --nepochs 20 --nepochs_decay 100 \
+  --nepochs 200 --nepochs_decay 300 \
   --num_threads 0 \
   --gpu_ids 0 \
   --norm batch \
