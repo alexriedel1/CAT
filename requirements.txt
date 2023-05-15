@@ -18,7 +18,7 @@ dominate==2.4.0
     # via -r requirements.in
 gpustat==0.6.0
     # via -r requirements.in
-grpcio==1.16.1
+grpcio
     # via
     #   -r requirements.in
     #   tensorboard
@@ -30,7 +30,7 @@ markdown==3.1.1
     # via
     #   -r requirements.in
     #   tensorboard
-numpy==1.20.3
+numpy
     # via
     #   -r requirements.in
     #   opencv-python
@@ -47,11 +47,11 @@ nvidia-ml-py3==7.352.0
     #   gpustat
 olefile==0.46
     # via -r requirements.in
-opencv-python==4.5.2.54
+opencv-python
     # via -r requirements.in
 packaging==20.9
     # via -r requirements.in
-pillow==8.2.0
+pillow
     # via
     #   -r requirements.in
     #   torchvision
@@ -60,7 +60,7 @@ protobuf==3.11.3
     #   -r requirements.in
     #   tensorboard
     #   tensorboardx
-psutil==5.7.0
+psutil
     # via
     #   -r requirements.in
     #   gpustat
@@ -70,9 +70,9 @@ pyparsing==2.4.7
     #   packaging
 pyyaml==5.3.1
     # via -r requirements.in
-scikit-learn==0.24.2
+scikit-learn
     # via -r requirements.in
-scipy==1.6.3
+scipy
     # via
     #   -r requirements.in
     #   scikit-learn
@@ -86,26 +86,26 @@ six==1.14.0
     #   protobuf
     #   tensorboard
     #   tensorboardx
-tensorboard==2.0.0
+tensorboard
     # via -r requirements.in
-tensorboardx==2.0
+tensorboardx
     # via -r requirements.in
 threadpoolctl==2.1.0
     # via
     #   -r requirements.in
     #   scikit-learn
-torch==1.7.1
+torch
     # via
     #   -r requirements.in
     #   torchprofile
     #   torchvision
-torchprofile==0.0.1
+torchprofile
     # via -r requirements.in
-torchvision==0.8.2
+torchvision
     # via
     #   -r requirements.in
     #   torchprofile
-tqdm==4.42.1
+tqdm
     # via -r requirements.in
 typing-extensions==3.7.4.3
     # via
