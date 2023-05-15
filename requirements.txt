@@ -4,7 +4,7 @@
 #
 #    pip-compile --output-file=requirements.txt requirements.in
 #
-absl-py==0.9.0
+absl-py
     # via
     #   -r requirements.in
     #   tensorboard
