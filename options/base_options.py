@@ -96,6 +96,11 @@ class BaseOptions:
                             type=int,
                             default=256,
                             help='then crop to this size')
+
+        parser.add_argument('--b2b_prob',
+                            type=float,
+                            default=0.0,
+                            help='make b2b translation')
         parser.add_argument(
             '--aspect_ratio',
             type=float,
