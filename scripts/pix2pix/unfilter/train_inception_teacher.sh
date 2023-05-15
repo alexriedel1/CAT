@@ -4,7 +4,7 @@ python train.py --dataroot /content/filtered_notfiltered_match_align \
   --log_dir logs/pix2pix/unfilter/inception/teacher \
   --netG inception_9blocks \
   --batch_size 16 \
-  --load_size 456 \
+  --load_size 412 \
   --crop_size 384 \
   --lambda_recon 10 \
   --nepochs 20 --nepochs_decay 100 \
