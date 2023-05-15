@@ -20,4 +20,4 @@ python train.py --dataroot /content/filtered_notfiltered_match_align \
   --eval_batch_size 8 \
   --direction AtoB \
   --b2b_prob 0.0 \
-  --preprocess resize_and_crop \  
+  --preprocess resize_and_crop
