@@ -21,8 +21,8 @@ class Logger:
             self.writer.add_scalar(k, v, global_step=step)
         self.writer.flush()
 
-    def print_current_errors(self, epoch, i, errors, t):
-        message = '(epoch: %d, iters: %d, time: %.3f) ' % (epoch, i, t)
+    def print_current_errors(self, epoch, i, total_i, errors, t):
+        message = '(epoch: %d, iters: %d / %d, time: %.3f) ' % (epoch, i, total_i, t)
 
         for k, v in errors.items():
             if 'Specific' in k:

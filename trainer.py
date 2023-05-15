@@ -134,7 +134,7 @@ class Trainer:
 
                 if total_iter % opt.print_freq == 0:
                     losses = model.get_current_losses()
-                    logger.print_current_errors(epoch, total_iter, losses,
+                    logger.print_current_errors(epoch, total_iter, len(dataloader), losses,
                                                 time.time() - iter_start_time)
                     logger.plot(losses, total_iter)
 
