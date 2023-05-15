@@ -3,7 +3,7 @@ python train.py --dataroot /content/filtered_notfiltered_match_align \
   --model pix2pix \
   --log_dir logs/pix2pix/unfilter/inception/teacher \
   --netG inception_9blocks \
-  --batch_size 32 \
+  --batch_size 16 \
   --load_size 384 \
   --crop_size 384 \
   --lambda_recon 10 \
@@ -17,7 +17,7 @@ python train.py --dataroot /content/filtered_notfiltered_match_align \
   --channels_reduction_factor 6 \
   --kernel_sizes 1 3 5 \
   --save_epoch_freq 1 --save_latest_freq 1 \
-  --eval_batch_size 16 \
+  --eval_batch_size 8 \
   --direction AtoB \
   --b2b_prob 0.3 \
   --preprocess random_rsz \
