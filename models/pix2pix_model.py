@@ -116,13 +116,13 @@ class Pix2PixModel(BaseModel):
         self.optimizer_D = torch.optim.Adam(self.netD.parameters(),
                                             lr=opt.lr,
                                             betas=(opt.beta1, 0.999))
-        self.optimizer_cls = torch.optim.Adam(self.netG.parameters(),
-                                            lr=opt.lr,
-                                            betas=(opt.beta1, 0.999))
+        #self.optimizer_cls = torch.optim.Adam(self.netG.parameters(),
+        #                                    lr=opt.lr,
+        #                                    betas=(opt.beta1, 0.999))
         self.optimizers = []
         self.optimizers.append(self.optimizer_G)
         self.optimizers.append(self.optimizer_D)
-        self.optimizers.append(self.optimizer_cls)
+        #self.optimizers.append(self.optimizer_cls)
 
         self.eval_dataloader = create_eval_dataloader(self.opt)
 
@@ -203,7 +203,7 @@ class Pix2PixModel(BaseModel):
         self.loss_G = self.loss_G_gan + self.loss_G_recon
         if getattr(self.opt, 'lambda_comp_cost', 0) > 0:
             self.loss_G += self.loss_G_comp_cost
-        self.loss_G.backward()
+        self.loss_G.backward(retain_graph=True)
     
     def backward_cls(self):
         self.loss_cls = self.criterionClass(self.cls, self.cls_label)
@@ -220,11 +220,11 @@ class Pix2PixModel(BaseModel):
         self.set_requires_grad(self.netD, False)
         self.optimizer_G.zero_grad()
         self.backward_G()
-        self.optimizer_G.step()
+        #self.optimizer_G.step()
 
-        self.optimizer_cls.zero_grad()
+        #self.optimizer_cls.zero_grad()
         self.backward_cls()
-        self.optimizer_cls.step()
+        self.optimizer_G.step()
 
     def evaluate_model(self, step, save_image=False):
         self.is_best = False
