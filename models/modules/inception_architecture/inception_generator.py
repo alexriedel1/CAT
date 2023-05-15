@@ -148,10 +148,10 @@ class InceptionGenerator(BaseNetwork):
     def forward(self, input):
         """Standard forward"""
         res = self.down_sampling(input)
-        cls = self.classifier(res)
+        #cls = self.classifier(res)
         res = self.features(res)
         res = self.up_sampling(res)
-        return res, cls
+        return res, 0
 
     def get_named_block_list(self):
         return _get_named_block_list(self)

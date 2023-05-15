@@ -161,7 +161,7 @@ class Pix2PixModel(BaseModel):
         self.real_A = input['A' if AtoB else 'B'].to(self.device)
         self.real_B = input['B' if AtoB else 'A'].to(self.device)
         self.image_paths = input['A_paths' if AtoB else 'B_paths']
-        self.cls_label = input["a_label"].to(self.device)
+        #self.cls_label = input["a_label"].to(self.device)
 
     def forward(self):
         """Run forward pass; called by both functions <optimize_parameters> and <test>."""
@@ -223,7 +223,7 @@ class Pix2PixModel(BaseModel):
         #self.optimizer_G.step()
 
         #self.optimizer_cls.zero_grad()
-        self.backward_cls()
+       # self.backward_cls()
         self.optimizer_G.step()
 
     def evaluate_model(self, step, save_image=False):
