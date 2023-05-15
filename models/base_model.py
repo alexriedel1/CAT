@@ -182,6 +182,8 @@ class BaseModel(ABC):
                 key = 'D_loss/' + key
             elif key.startswith('G_'):
                 key = 'G_loss/' + key
+            elif key.startswith('cls'):
+                key = 'cls_loss/' + key
             else:
                 assert False
             errors_set[key] = float(getattr(self, 'loss_' + name))
