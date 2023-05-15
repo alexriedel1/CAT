@@ -4,10 +4,10 @@ python train.py --dataroot /content/filtered_notfiltered_match_align \
   --log_dir logs/pix2pix/unfilter/inception/teacher \
   --netG inception_9blocks \
   --batch_size 32 \
-  --load_size 356 \
-  --crop_size 256 \
+  --load_size 384 \
+  --crop_size 384 \
   --lambda_recon 10 \
-  --nepochs 500 --nepochs_decay 1000 \
+  --nepochs 20 --nepochs_decay 1000 \
   --num_threads 0 \
   --gpu_ids 0 \
   --norm batch \
@@ -16,7 +16,7 @@ python train.py --dataroot /content/filtered_notfiltered_match_align \
   --norm_track_running_stats \
   --channels_reduction_factor 6 \
   --kernel_sizes 1 3 5 \
-  --save_epoch_freq 50 --save_latest_freq 20000 \
+  --save_epoch_freq 1 --save_latest_freq 1 \
   --eval_batch_size 16 \
   --direction AtoB \
   --b2b_prob 0.3 \
