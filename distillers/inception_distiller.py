@@ -81,7 +81,9 @@ class InceptionDistiller(BaseInceptionDistiller):
         self.best_fid = 1e9
         self.best_mIoU = -1e9
         self.fids, self.mIoUs = [], []
-        self.npz = np.load(opt.real_stat_path)
+        self.real_stat_path = opt.real_stat_path
+        if self.real_stat_path is not None:
+            self.npz = np.load(opt.real_stat_path)
         model_profiling(getattr(self.netG_teacher, 'module',
                                 self.netG_teacher),
                         self.opt.data_height,
@@ -242,23 +244,25 @@ class InceptionDistiller(BaseInceptionDistiller):
                                                      '%s.png' % name),
                                         create_dir=True)
                 cnt += 1
-
-        fid = get_fid(fakes,
-                      self.inception_model,
-                      self.npz,
-                      device=self.device,
-                      batch_size=self.opt.eval_batch_size)
-        if fid < self.best_fid:
-            self.is_best = True
-            self.best_fid = fid
-        self.fids.append(fid)
-        if len(self.fids) > 3:
-            self.fids.pop(0)
-        ret = {
-            'metric/fid': fid,
-            'metric/fid-mean': sum(self.fids) / len(self.fids),
-            'metric/fid-best': self.best_fid
-        }
+        if self.real_stat_path is not None:
+            fid = get_fid(fakes,
+                        self.inception_model,
+                        self.npz,
+                        device=self.device,
+                        batch_size=self.opt.eval_batch_size)
+            if fid < self.best_fid:
+                self.is_best = True
+                self.best_fid = fid
+            self.fids.append(fid)
+            if len(self.fids) > 3:
+                self.fids.pop(0)
+            ret = {
+                'metric/fid': fid,
+                'metric/fid-mean': sum(self.fids) / len(self.fids),
+                'metric/fid-best': self.best_fid
+            }
+        else:
+            ret = {}
         if 'cityscapes' in self.opt.dataroot and self.opt.direction == 'BtoA':
             mIoU = get_mIoU(fakes,
                             names,

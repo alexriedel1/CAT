@@ -134,10 +134,12 @@ class InceptionGenerator(BaseNetwork):
        
         #TODO Implement simple classifier from features
         self.classifier =  nn.Sequential(
-            nn.ReLU(),
             nn.AdaptiveAvgPool2d((1, 1)),
             nn.Flatten(),
-            nn.Linear(ngf * (2**(n_downsampling-1)) * 2,  1),
+            nn.Linear(ngf * (2**(n_downsampling-1)) * 2,  128),
+            nn.ReLU(),
+            nn.Dropout(),
+            nn.Linear(128,  1),
             nn.ReLU(),
             nn.Sigmoid()
             )
