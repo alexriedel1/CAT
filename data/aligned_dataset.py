@@ -67,7 +67,7 @@ class AlignedDataset(BaseDataset):
         #    A = B
         #    a_label = torch.tensor([0.0])
 
-        return {'A': A, 'B': B, 'A_paths': AB_path, 'B_paths': AB_path, "a_label" : a_label}
+        return {'A': A, 'B': B, 'A_paths': AB_path, 'B_paths': AB_path}#"a_label" : a_label}
 
     def __len__(self):
         """Return the total number of images in the dataset."""
