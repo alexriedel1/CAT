@@ -13,6 +13,8 @@ python train.py --dataroot /content/filtered_notfiltered_match_align \
   --channels_reduction_factor 6 \
   --save_epoch_freq 1 --save_latest_freq 2000 \
   --eval_batch_size 1 \
+  --norm_affine \
+  --norm_affine_D \
   --direction AtoB \
   --b2b_prob 0.0 \
   --preprocess resize_and_crop

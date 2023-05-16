@@ -107,12 +107,12 @@ def get_transform(opt,
             transform_list.append(
                 transforms.Lambda(lambda img: __crop(img, params['crop_pos'],
                                                      params['crop_size'])))
-    if 'random_rsz' in opt.preprocess:
-        if random_resize_crop_params is None:
-            transform_list.append(transforms.RandomResizedCrop(opt.crop_size))
-        else:
-            transform_list.append(
-                transforms.Lambda(lambda img: TF.resized_crop(img, *random_resize_crop_params)))
+    #if 'random_rsz' in opt.preprocess:
+    #    if random_resize_crop_params is None:
+    #        transform_list.append(transforms.RandomResizedCrop(opt.crop_size))
+    #    else:
+    #        transform_list.append(
+    #            transforms.Lambda(lambda img: TF.resized_crop(img, *random_resize_crop_params)))
 
     if opt.preprocess == 'none':
         transform_list.append(
