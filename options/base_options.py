@@ -39,7 +39,13 @@ class BaseOptions:
             '--input_nc',
             type=int,
             default=3,
-            help='# of input image channels: 3 for RGB and 1 for grayscale')
+            help='# of input image channels: 3 for RGB and 1 for grayscale') 
+        parser.add_argument(
+            '--no_tensorboard',
+            action='store_true',
+            help=
+            'do not write to tensorboard'
+        )
         parser.add_argument(
             '--output_nc',
             type=int,
