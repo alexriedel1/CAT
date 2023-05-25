@@ -133,6 +133,7 @@ class InceptionGenerator(BaseNetwork):
         self.down_sampling = nn.Sequential(*down_sampling)
        
         #TODO Implement simple classifier from features
+        """
         self.classifier =  nn.Sequential(
             nn.AdaptiveAvgPool2d((1, 1)),
             nn.Flatten(),
@@ -143,6 +144,7 @@ class InceptionGenerator(BaseNetwork):
             nn.ReLU(),
             nn.Sigmoid()
             )
+        """
 
         self.features = nn.Sequential(*features)
         self.up_sampling = nn.Sequential(*up_sampling)
