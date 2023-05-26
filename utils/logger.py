@@ -7,7 +7,7 @@ from tensorboardX import SummaryWriter
 class Logger:
     def __init__(self, opt):
         self.opt = opt
-        self.log_file = open(os.path.join(opt.log_dir, 'log.txt'), 'a')
+        #self.log_file = open(os.path.join(opt.log_dir, 'log.txt'), 'a')
         os.makedirs(opt.tensorboard_dir, exist_ok=True)
         if not self.opt.no_tensorboard:
             self.writer = SummaryWriter(opt.tensorboard_dir)
