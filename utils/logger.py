@@ -12,8 +12,8 @@ class Logger:
         if not self.opt.no_tensorboard:
             self.writer = SummaryWriter(opt.tensorboard_dir)
         now = time.strftime('%c')
-        self.log_file.write('================ (%s) ================\n' % now)
-        self.log_file.flush()
+        #self.log_file.write('================ (%s) ================\n' % now)
+        #self.log_file.flush()
 
     def plot(self, items, step):
         if len(items) == 0:
@@ -33,8 +33,8 @@ class Logger:
             message += '%s: %.3f ' % (kk, v)
 
         print(message, flush=True)
-        self.log_file.write('%s\n' % message)
-        self.log_file.flush()
+        #self.log_file.write('%s\n' % message)
+        #self.log_file.flush()
 
     def print_current_metrics(self, epoch, i, metrics, t):
         message = '###(Evaluate epoch: %d, iters: %d, time: %.3f) ' % (epoch,
@@ -45,8 +45,8 @@ class Logger:
             message += '%s: %.3f ' % (kk, v)
 
         print(message, flush=True)
-        self.log_file.write('%s\n' % message)
+        #self.log_file.write('%s\n' % message)
 
     def print_info(self, message):
         print(message, flush=True)
-        self.log_file.write(message + '\n')
+        #self.log_file.write(message + '\n')
